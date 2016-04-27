@@ -1,0 +1,30 @@
+group 'com.soluto'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "http://solutonexus:8081/nexus/content/repositories/development/" }
+}
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+uploadArchives {
+    apply plugin: 'maven'
+    repositories {
+        mavenDeployer {
+            repository(url: "http://solutonexus:8081/nexus/content/repositories/development/") {
+                authentication(userName: "admin", password: "po09!@QW")
+            }
+            pom.groupId = "com.soluto"
+            pom.artifactId = 'exceptionEnrichment'
+            pom.version = version
+        }
+    }
+}
