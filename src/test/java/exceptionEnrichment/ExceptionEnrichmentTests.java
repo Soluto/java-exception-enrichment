@@ -2,7 +2,6 @@ package exceptionEnrichment;
 
 
 import com.soluto.exceptionEnrichment.ExtraData;
-import com.sun.javaws.exceptions.LaunchDescException;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -10,16 +9,15 @@ import java.util.UUID;
 import static com.soluto.exceptionEnrichment.ExtraData.*;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 public class ExceptionEnrichmentTests {
     @Test
     public void enrichException_addExtraDataToExceptionWithoutExtraData() {
         try {
-            throw enrichedException(new LaunchDescException(), ExtraData.create().with("testKey", "testValue"));
+            throw enrichedException(new Exception(), ExtraData.create().with("testKey", "testValue"));
         }
-        catch (LaunchDescException e) {
+        catch (Exception e) {
             ExtraData extraData = getExtraData(e);
             assertEquals(extraData.buildDictionary().get("testKey"), "testValue");
         }
@@ -31,10 +29,10 @@ public class ExceptionEnrichmentTests {
     @Test
     public void enrichException_addExtraDataToExceptionWithExtraData() {
         try {
-            Throwable exception = enrichedException(new LaunchDescException(), ExtraData.create().with("key1", "value1"));
+            Throwable exception = enrichedException(new Exception(), ExtraData.create().with("key1", "value1"));
             throw enrichedException(exception, ExtraData.create().with("key2", "value2"));
         }
-        catch (LaunchDescException e) {
+        catch (Exception e) {
             ExtraData extraData = getExtraData(e);
             assertEquals(extraData.buildDictionary().get("key1"), "value1");
             assertEquals(extraData.buildDictionary().get("key2"), "value2");
