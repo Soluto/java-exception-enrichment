@@ -69,7 +69,12 @@ public class ExtraData extends Throwable {
                 return throwable;
             }
             if (currentCause.getCause() == null) {
-                currentCause.initCause(extraData);
+                try {
+                    currentCause.initCause(extraData);
+                }
+                catch (IllegalStateException _) {
+
+                }
                 return throwable;
             }
             currentCause = currentCause.getCause();
